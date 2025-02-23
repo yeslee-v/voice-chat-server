@@ -1,9 +1,19 @@
-import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
+import {
+  ConnectedSocket,
+  MessageBody,
+  SubscribeMessage,
+  WebSocketGateway,
+} from '@nestjs/websockets';
 
 @WebSocketGateway()
 export class ChatGateway {
   @SubscribeMessage('message')
-  handleMessage(client: any, payload: any): string {
-    return 'Hello world!';
+  handleMessage(
+    @ConnectedSocket() client: any,
+    @MessageBody() payload: any,
+  ): void {
+    console.log('>>', client, payload);
+
+    client.emit('room', { name: 'Joined!' });
   }
 }
