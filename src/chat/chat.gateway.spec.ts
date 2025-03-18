@@ -28,7 +28,7 @@ describe('ChatGateway', () => {
     console.log('start to emit');
     const payload = { message: 'Connect to chat!' };
 
-    gateway.handleMessage(mockSocket, payload);
+    gateway.handleMessage(mockSocket as Socket, payload);
 
     expect(mockSocket.emit).toHaveBeenCalledWith('room', { name: 'Joined!' });
   });
