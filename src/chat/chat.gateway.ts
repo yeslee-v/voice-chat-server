@@ -5,13 +5,14 @@ import {
   WebSocketGateway,
 } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
+import { ChatMessageDto } from './dto/chat-message.dto';
 
 @WebSocketGateway()
 export class ChatGateway {
   @SubscribeMessage('message')
   handleMessage(
     @ConnectedSocket() client: Socket,
-    @MessageBody() payload: { message: string },
+    @MessageBody() message: ChatMessageDto,
   ): void {
     client.emit('room', { name: 'Joined!' });
   }

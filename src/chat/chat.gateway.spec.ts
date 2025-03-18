@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Socket } from 'socket.io';
 import { ChatGateway } from './chat.gateway';
+import { ChatMessageDto } from './dto/chat-message.dto';
 
 describe('ChatGateway', () => {
   let gateway: ChatGateway;
@@ -26,9 +27,12 @@ describe('ChatGateway', () => {
 
   it('should be emit', () => {
     console.log('start to emit');
-    const payload = { message: 'Connect to chat!' };
+    const message: ChatMessageDto = {
+      senderId: 1,
+      content: 'Connect to chat!',
+    };
 
-    gateway.handleMessage(mockSocket as Socket, payload);
+    gateway.handleMessage(mockSocket as Socket, message);
 
     expect(mockSocket.emit).toHaveBeenCalledWith('room', { name: 'Joined!' });
   });
